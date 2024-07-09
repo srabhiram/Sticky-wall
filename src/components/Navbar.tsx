@@ -14,22 +14,22 @@ export default function Navbar() {
   // };
   return (
     <main
-      className={`flex flex-col gap-5 w-full bg-gray-50 h-[53rem] max-h-screen mx-2 my-3 p-3 rounded-lg `}
+      className={`flex flex-col gap-5 w-full bg-gray-50 h-[43rem] mx-2 my-3 p-3 rounded-lg `}
     >
       <header className="flex justify-between    items-center px-3">
-        <h1 className="font-playwrite text-3xl font-bold">Sticky Wall</h1>
+        <h1 className="font-playwrite text-2xl font-bold">Sticky Wall</h1>
       </header>
-      <section className="mt-2 w-full flex flex-col gap-96">
+      <section className="mt-2 w-full flex flex-col gap-[22rem]">
         <div>
           <ul className="flex flex-col space-y-3">
             <li className="">
               Tasks
               <span className="flex flex-col gap-2 mx-2 mt-1 justify-center">
-                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-5">
+                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-3">
                   <FaTasks />
                   <Link
                     href={`/home`}
-                    className="text-xl  font-medium hover:text-lime-600 transition-all duration-100"
+                    className="text-lg  font-medium hover:text-lime-600 transition-all duration-100"
                   >
                     All Tasks
                   </Link>
@@ -37,11 +37,11 @@ export default function Navbar() {
                     0
                   </span>
                 </div>
-                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-5">
+                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-3">
                   <TbPlayerTrackNext />
                   <Link
                     href={`/home/upcoming`}
-                    className="text-xl  font-medium hover:text-lime-600 transition-all duration-100"
+                    className="text-lg  font-medium hover:text-lime-600 transition-all duration-100"
                   >
                     Upcoming
                   </Link>
@@ -49,11 +49,11 @@ export default function Navbar() {
                     0
                   </span>
                 </div>
-                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-5">
+                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-3">
                   <MdOutlineTaskAlt />
                   <Link
                     href={`/home/completed`}
-                    className="text-xl  font-medium hover:text-lime-600 transition-all duration-100"
+                    className="text-lg  font-medium hover:text-lime-600 transition-all duration-100"
                   >
                     Completed
                   </Link>

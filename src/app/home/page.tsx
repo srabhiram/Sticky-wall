@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <>
       <main className=" w-full mx-2 my-3 p-3 rounded-lg">
-        <header className="font-playwrite md:text-[2.8rem] font-bold">
+        <header className="font-playwrite md:text-[2.5rem] font-bold">
           All Tasks
         </header>
         <div className="flex justify-end mr-10 mb-3 font-playwrite text-lg font-bold">
