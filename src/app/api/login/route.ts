@@ -9,6 +9,7 @@ export function GET(request: NextRequest) {
 
 export function POST(req: NextRequest) {
     const bodyData = req.body;
+    
     const res = NextResponse.json({
     message: "POST Request Received",
     data : bodyData,

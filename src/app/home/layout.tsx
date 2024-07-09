@@ -16,7 +16,7 @@ export default function RootLayout({
             {" "}
             <Navbar/> 
           </div>
-          <div className="md:w-[84%] "> {children}</div>
+          <div className="md:w-[84%] max-h-full "> {children}</div>
         </div>
       </body>
     </html>
