@@ -102,13 +102,14 @@ export default function Signup() {
           {error.passwordError && (
             <p className="text-red-500 tracking-tight">{error.passwordError}</p>
           )}
-          <submit
+          <button
             className="px-3 py-2 bg-lime-400 mt-1 text-center rounded-md font-semibold cursor-pointer"
             onClick={handleSubmit}
           >
             Signup
-          </submit>
+          </button>
         </form>
+        
         <p className="mt-2 md:text-lg font">
           Already have an account?{" "}
           <Link href={`/login`} className="text-lime-500">
