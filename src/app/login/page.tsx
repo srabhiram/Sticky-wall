@@ -11,7 +11,7 @@ export default function Login() {
           <input type="password" placeholder="Password" className="bg-white px-3 py-3 rounded-md outline-none"/>
           <input type="submit" value="Login" className="px-3 py-2 bg-lime-400 mt-1 rounded-md font-semibold cursor-pointer" />
         </form>
-        <p className="mt-2 md:text-lg font">Don'&apos;t have an account? <Link href={`/signup`} className="text-lime-500">Signup</Link> here</p>
+        <p className="mt-2 md:text-lg font">Don&apos;t have an account? <Link href={`/signup`} className="text-lime-500">Signup</Link> here</p>
 
       </div>
     </>
