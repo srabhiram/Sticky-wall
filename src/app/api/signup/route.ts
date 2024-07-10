@@ -1,6 +1,7 @@
 import { connectDB } from "@/db/dbConfig";
 import User from "@/models/users.models";
 import { NextRequest, NextResponse } from "next/server";
+import { redirect } from "next/navigation";
 import bcryptjs from "bcryptjs";
 
 connectDB();
@@ -38,8 +39,6 @@ export async function POST(req: NextRequest) {
         status: 201, // Created
       }
     );
-    // redirect to the home page
-
     return res;
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });

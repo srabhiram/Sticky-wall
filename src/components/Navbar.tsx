@@ -5,6 +5,8 @@ import { FaAlignJustify, FaPlus, FaSignOutAlt, FaTasks } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import { TbPlayerTrackNext } from "react-icons/tb";
+import axios from "axios"
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   // const [isOpen, setIsOpen] = React.useState(false);
@@ -12,6 +14,17 @@ export default function Navbar() {
 
   //   setIsOpen(!isOpen);
   // };
+  const router = useRouter()
+  const onLogout = async ()=>{
+      try {
+        const res = await axios.get("/api/logout")
+        console.log(res)
+        // redirect to home page
+        router.push("/")
+      } catch (error) {
+        console.log(error)
+      }
+  }
   return (
     <main
       className={`flex flex-col gap-5 w-full bg-gray-50 h-[43rem] mx-2 my-3 p-3 rounded-lg `}
@@ -72,13 +85,13 @@ export default function Navbar() {
           >
             <IoIosSettings /> Settings
           </Link>
-          <Link
-            href={`/logout`}
+          <button
+           onClick={onLogout}
             className="flex gap-3 px-2 py-1 text-lg items-center"
           >
             <FaSignOutAlt />
             Signout
-          </Link>
+          </button>
         </div>
       </section>
     </main>
