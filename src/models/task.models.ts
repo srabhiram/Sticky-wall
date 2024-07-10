@@ -8,12 +8,16 @@ const taskSchema = new mongoose.Schema({
     type: "string",
   },
   completed: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: ()=> new Date() },
+  dueDate: {
+    type: Date,
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  
 });
-
-const Task = mongoose.model("Task", taskSchema);
+// default: () => new Date().toISOString().slice(0, 10),
+const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
 export default Task;

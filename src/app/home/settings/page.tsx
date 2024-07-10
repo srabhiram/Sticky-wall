@@ -1,27 +1,17 @@
 "use client";
 
+import { useAppContext, UserData } from "@/app/theme-provider";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-interface UsesrData {
-  fullname: string;
-  email: string;
-}
+
 
 export default function page() {
-  const [data, setData] = useState<UsesrData | null>(null);
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const res: any = await axios.get("/api/profile");
-        setData(res.data.data);
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    }
-
-    getUser();
-  }, []);
+  const [data, setData] = useState<UserData | null>(null);
+  const fetchedData = useAppContext();
+  useEffect(()=>{
+      setData(fetchedData);
+  }, [fetchedData])
   return (
     <>
       <main className="w-full  mx-2 my-3 p-3 rounded-lg">

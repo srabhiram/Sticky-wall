@@ -7,7 +7,7 @@ connectDB();
 export async function GET(req: NextRequest) {
   try {
     const userId = await getTokenData(req);
-    const user = await User.findById(userId).select("-password -tasks");
+    const user = await User.findById(userId).select("-password");
     return NextResponse.json(
       {
         message: "User found",

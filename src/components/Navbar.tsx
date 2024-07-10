@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaAlignJustify, FaPlus, FaSignOutAlt, FaTasks } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import { TbPlayerTrackNext } from "react-icons/tb";
-import axios from "axios"
+import axios from "axios";
 import { useRouter } from "next/navigation";
+import { TasksId, useAppContext, UserData } from "@/app/theme-provider";
 
 export default function Navbar() {
   // const [isOpen, setIsOpen] = React.useState(false);
@@ -14,17 +15,24 @@ export default function Navbar() {
 
   //   setIsOpen(!isOpen);
   // };
-  const router = useRouter()
-  const onLogout = async ()=>{
-      try {
-        const res = await axios.get("/api/logout")
-        console.log(res)
-        // redirect to home page
-        router.push("/")
-      } catch (error) {
-        console.log(error)
-      }
-  }
+  const router = useRouter();
+  const data = useAppContext();
+
+  const [task, setTask] = useState<TasksId[] | undefined>(undefined);
+
+  useEffect(() => {
+    setTask(data?.tasks);
+  }, [data]);
+  const onLogout = async () => {
+    try {
+      const res = await axios.get("/api/logout");
+      console.log(res);
+      // redirect to home page
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <main
       className={`flex flex-col gap-5 w-full bg-gray-50 h-[43rem] mx-2 my-3 p-3 rounded-lg `}
@@ -47,7 +55,7 @@ export default function Navbar() {
                     All Tasks
                   </Link>
                   <span className="px-3 py-1.5 rounded-sm bg-white self-end">
-                    0
+                    {task?.length}
                   </span>
                 </div>
                 <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-3">
@@ -86,7 +94,7 @@ export default function Navbar() {
             <IoIosSettings /> Settings
           </Link>
           <button
-           onClick={onLogout}
+            onClick={onLogout}
             className="flex gap-3 px-2 py-1 text-lg items-center"
           >
             <FaSignOutAlt />
