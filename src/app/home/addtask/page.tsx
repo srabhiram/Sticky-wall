@@ -1,11 +1,12 @@
 "use client";
 import { useAppContext, UserData } from "@/app/theme-provider";
 import axios from "axios";
+import { AppContextType } from "next/dist/shared/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextRequest } from "next/server";
 import React, { useContext, useState } from "react";
-interface taskType {
+export interface taskType {
   title: string;
   description: string;
   dueDate: string;
@@ -13,7 +14,7 @@ interface taskType {
 }
 export default function page() {
   const router = useRouter();
-  const UserData: UserData | null = useAppContext();
+  const {data,fetchData} = useAppContext();
   const [taskData, setTaskData] = useState<taskType>({
     title: "",
     description: "",
@@ -25,7 +26,7 @@ export default function page() {
     setTaskData({
       ...taskData,
       [e.target.name]: e.target.value,
-      user: UserData?._id,
+      user: data?._id,
     });
   };
   const handleSubmit = async (e: any) => {
@@ -34,6 +35,7 @@ export default function page() {
     try {
       const res = await axios.post("/api/addtask", taskData);
       console.log(res.data.data);
+      fetchData();
     } catch (error: any) {
       console.log(error.message);
     }

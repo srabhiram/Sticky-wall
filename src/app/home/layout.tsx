@@ -1,6 +1,11 @@
+"use client"
 import Navbar from "@/components/Navbar";
 import { Roboto } from "next/font/google";
 import ContextProvider from "../theme-provider";
+import HomePage from "./page";
+import { Suspense } from "react";
+import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
+import Loading from "./loading";
 
 const roboto = Roboto({ weight: "500", subsets: ["latin"] });
 
@@ -20,7 +25,9 @@ export default function RootLayout({
               {" "}
               <Navbar />
             </div>
-            <div className="md:w-[84%] max-h-full "> {children}</div>
+            <div className="md:w-[84%] max-h-full ">
+              <Suspense fallback={<Loading />}> {children}</Suspense>
+            </div>
           </div>
         </ContextProvider>
       </body>

@@ -1,10 +1,31 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import axios from "axios";
 
 export interface TasksId {
   _id: string;
+}
+
+export interface TaskTypes {
+  slice: any;
+  reverse: any;
+  length: number;
+  map(
+    arg0: (data: TaskTypes, index: number) => React.JSX.Element
+  ): React.ReactNode;
+  title: string;
+  description: string;
+  completed: Boolean;
+  createdAt: Date;
+  dueDate: Date;
+  user: string;
 }
 
 export interface UserData {
@@ -16,7 +37,15 @@ export interface UserData {
   tasks: TasksId[];
 }
 
-export const AppContext = createContext<UserData | null>(null);
+export interface AppContextType {
+  taskData: TaskTypes[];
+  data: UserData | null;
+  loading: boolean;
+  fetchTaskData: () => void;
+  fetchData: () => void;
+}
+
+export const AppContext = createContext<AppContextType | null>(null);
 
 export default function ContextProvider({
   children,
@@ -24,18 +53,59 @@ export default function ContextProvider({
   children: React.ReactNode;
 }) {
   const [data, setData] = useState<UserData | null>(null);
+  const [taskData, setTaskData] = useState<TaskTypes[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
+  const fetchData = useCallback(async () => {
+    setLoading(true);
     try {
-      axios.get("/api/profile").then((res) => setData(res.data.data));
+      const res = await axios.get("/api/profile");
+      setData(res.data.data);
     } catch (error: any) {
       console.log("Error fetching data", error.message);
+    } finally {
+      setLoading(false);
     }
-  }, []); // Ensure the dependency array is empty
+  }, []);
 
-  return <AppContext.Provider value={data}>{children}</AppContext.Provider>;
+  const fetchTaskData = useCallback(async () => {
+    if (!data?._id) return;
+    setLoading(true);
+    try {
+      const res = await axios.get("/api/tasks", { params: { user: data._id } });
+      setTaskData(res.data.data);
+    } catch (error: any) {
+      console.log("Failed to fetch tasks data", error.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [data?._id]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  useEffect(() => {
+    fetchTaskData();
+  }, [fetchTaskData]);
+
+  const contextValue: AppContextType = {
+    taskData,
+    data,
+    loading,
+    fetchTaskData,
+    fetchData,
+  };
+
+  return (
+    <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
+  );
 }
 
 export function useAppContext() {
-  return useContext(AppContext);
+  const context = useContext(AppContext);
+  if (context === null) {
+    throw new Error("useAppContext must be used within a ContextProvider");
+  }
+  return context;
 }

@@ -10,17 +10,7 @@ export async function GET(req: NextRequest) {
       expires: new Date(0),
     });
     return res;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return NextResponse.json(
-        { error: "Internal server error: " + error.message },
-        { status: 500 }
-      );
-    } else {
-      return NextResponse.json(
-        { error: "Internal server error" },
-        { status: 500 }
-      );
-    }
+  } catch (error: any) {
+    throw new Error (error.message)
   }
 }

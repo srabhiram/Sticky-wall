@@ -7,11 +7,8 @@ import React, { useEffect, useState } from "react";
 
 
 export default function page() {
-  const [data, setData] = useState<UserData | null>(null);
-  const fetchedData = useAppContext();
-  useEffect(()=>{
-      setData(fetchedData);
-  }, [fetchedData])
+  const {data} = useAppContext();
+  
   return (
     <>
       <main className="w-full  mx-2 my-3 p-3 rounded-lg">
