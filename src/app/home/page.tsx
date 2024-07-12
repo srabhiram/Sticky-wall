@@ -35,7 +35,6 @@ export default function HomePage() {
               .reverse()
               .map((data: TaskTypes, index: number) => (
                 <Card
-key={index}
                   bgColor={bgColor}
                   data={data}
                   index={taskData.length - 1 - index}
