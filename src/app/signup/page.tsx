@@ -4,6 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Signup() {
   const router = useRouter();
@@ -58,19 +59,25 @@ export default function Signup() {
     setLoading(!loading);
 
     // send data to server
-    try {
-      const res = await axios.post("/api/signup", userData);
-      console.log(res);
-      setuserData({
-        fullname: "",
-        email: "",
-        password: "",
+    toast
+      .promise(
+        axios.post("/api/signup", userData),
+
+        {
+          loading: "Processing....",
+          success: "Successfully signed up, Login now",
+          error: "Failed to signup, please try again",
+        }
+      )
+      .then(() => {
+        setuserData({
+          fullname: "",
+          email: "",
+          password: "",
+        });
+        router.push("/login");
+        setLoading(!loading);
       });
-      router.push("/login");
-      setLoading(!loading)
-    } catch (error) {
-      console.log(error);
-    }
   };
   return (
     <>
@@ -116,7 +123,13 @@ export default function Signup() {
             className="px-3 py-2 bg-lime-400 mt-1 text-center rounded-md font-semibold cursor-pointer hover:bg-lime-500 transition-all duration-150 active:bg-lime-300 disabled:cursor-not-allowed disabled:bg-lime-200"
             onClick={handleSubmit}
           >
-            {loading ?(<span className="flex items-center justify-center gap-2">Signup<span className="loader"></span></span>):"Signup"}
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                Signup<span className="loader"></span>
+              </span>
+            ) : (
+              "Signup"
+            )}
           </button>
         </form>
 

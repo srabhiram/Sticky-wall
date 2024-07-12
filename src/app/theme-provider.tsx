@@ -14,17 +14,18 @@ export interface TasksId {
 }
 
 export interface TaskTypes {
-  slice: any;
-  reverse: any;
-  length: number;
+  _id: string;
+  slice?: any;
+  reverse?: any;
+  length?: number;
   map(
     arg0: (data: TaskTypes, index: number) => React.JSX.Element
   ): React.ReactNode;
   title: string;
   description: string;
-  completed: Boolean;
-  createdAt: Date;
-  dueDate: Date;
+  completed: boolean;
+  createdAt: string;
+  dueDate: string;
   user: string;
 }
 
@@ -57,7 +58,7 @@ export default function ContextProvider({
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = useCallback(async () => {
-    setLoading(true);
+
     try {
       const res = await axios.get("/api/profile");
       setData(res.data.data);

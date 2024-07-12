@@ -1,29 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Navbar from "@/components/Navbar";
-import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
+import React from "react";
 import Link from "next/link";
-import { FaPlus, FaRegEdit } from "react-icons/fa";
-import { useAppContext } from "../theme-provider";
-import axios from "axios";
+import { FaPlus } from "react-icons/fa";
+import { TaskTypes, useAppContext } from "../theme-provider";
 import Card from "@/components/Card";
 import { bgColor } from "@/helpers/constants";
+import { Toaster } from "react-hot-toast";
 
-export interface TaskTypes {
-  slice: any;
-  reverse: any;
 
-  length: number;
-  map(
-    arg0: (data: TaskTypes, index: number) => React.JSX.Element
-  ): React.ReactNode;
-  title: string;
-  description: string;
-  completed: Boolean;
-  createdAt: Date;
-  dueDate: Date;
-  user: string;
-}
 export default function HomePage() {
   const { taskData} = useAppContext();
   
@@ -31,10 +15,10 @@ export default function HomePage() {
   return (
     <>
       <main className=" w-full  mx-2 my-3 p-3 rounded-lg">
-        <header className="font-playwrite md:text-[2.5rem] font-bold">
+        <header className="font-playwrite md:text-[2.5rem] text-2xl font-bold">
           All Tasks
         </header>
-        <div className="flex justify-end mr-10 mb-3 font-playwrite text-lg font-bold">
+        <div className="flex justify-end mr-10 mb-3 font-playwrite md:text-lg font-bold">
           <Link
             href={"/home/addtask"}
             className="flex gap-3 items-center px-4 py-3 bg-lime-400 rounded-xl hover:scale-110 active:scale-95 active:bg-white transition-all duration-150"

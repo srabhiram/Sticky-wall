@@ -6,13 +6,14 @@ import { NextRequest, NextResponse } from "next/server";
 connectDB();
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { title, description, completed, createdAt, dueDate, user } = data;
+  console.log("data: "+data)
+  const { title, description, completed, user } = data;
   try {
     const task = new Task({
       title,
       description,
       completed,
-      dueDate,
+      
       user,
     })
     await task.save();

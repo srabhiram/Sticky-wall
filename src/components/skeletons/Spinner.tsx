@@ -10,7 +10,7 @@ export default function Spinner() {
       background: "rgb(255, 255, 255)",
     }} xmlnsXlink="http://www.w3.org/1999/xlink"><g><g transform="translate(80,50)">
 <g transform="rotate(0)">
-<circle fill-opacity="1" fill="#9dff72" r="6" cy="0" cx="0">
+<circle fillOpacity="1" fill="#9dff72" r="6" cy="0" cx="0">
   <animateTransform repeatCount="indefinite" dur="1s" keyTimes="0;1" values="1.5 1.5;1 1" begin="-0.875s" type="scale" attributeName="transform"></animateTransform>
   <animate begin="-0.875s" values="1;0" repeatCount="indefinite" dur="1s" keyTimes="0;1" attributeName="fill-opacity"></animate>
 </circle>

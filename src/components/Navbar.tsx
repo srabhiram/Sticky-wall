@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaAlignJustify, FaPlus, FaSignOutAlt, FaTasks } from "react-icons/fa";
+import { FaAlignJustify, FaPlus, FaRegUserCircle, FaSignOutAlt, FaTasks } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import { TbPlayerTrackNext } from "react-icons/tb";
@@ -9,29 +9,35 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useAppContext } from "@/app/theme-provider";
+import path from "path";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { taskData } = useAppContext();
+  const { taskData, loading } = useAppContext();
 
   const [allTaskCount, setAllTaskCount] = useState(0);
   const [completedTaskCount, setCompletedTaskCount] = useState(0);
   const [pendingTaskCount, setPendingTaskCount] = useState(0);
 
   useEffect(() => {
-    setCompletedTaskCount(taskData.filter((t) => t.completed).length);
-    setPendingTaskCount(taskData.filter((t) => !t.completed).length);
-    setAllTaskCount(taskData.length);
+    if (taskData) {
+      const completedTasks = taskData.filter((t) => t.completed);
+      setCompletedTaskCount(completedTasks.length);
+      setPendingTaskCount(taskData.length - completedTasks.length);
+      setAllTaskCount(taskData.length);
+    }
   }, [taskData]);
 
   const onLogout = async () => {
-    try {
-      await axios.get("/api/logout");
-      router.push("/");
-    } catch (error) {
-      console.log(error);
-    }
+    toast
+      .promise(axios.get("/api/logout"), {
+        loading: "Signing out...",
+        success: "Successfully logged out",
+        error: "Something went wrong",
+      })
+      .then(() => router.push("/"));
   };
 
   return (
@@ -39,68 +45,65 @@ export default function Navbar() {
       <header className="flex justify-between items-center px-3">
         <h1 className="font-playwrite text-2xl font-bold">Sticky Wall</h1>
       </header>
-      <section className="mt-2 w-full flex flex-col gap-[22rem]">
-        <div>
-          <ul className="flex flex-col space-y-3">
-            <li>
-              Tasks
-              <span className="flex flex-col gap-2 mx-2 mt-1 justify-center">
-                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-3">
-                  <FaTasks />
-                  <Link
-                    href={`/home`}
-                    className={`${
-                      pathname === "/home" ? "text-lime-600" : ""
-                    } text-lg font-medium hover:text-lime-600 transition-all duration-100`}
-                  >
-                    All Tasks
-                  </Link>
-                  <span className="px-3 py-1.5 rounded-sm bg-white self-end">
-                    {allTaskCount}
-                  </span>
-                </div>
-                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-3">
-                  <TbPlayerTrackNext />
-                  <Link
-                    href={`/home/upcoming`}
-                    className={`${
-                      pathname === "/home/upcoming" ? "text-lime-600" : ""
-                    } text-lg font-medium hover:text-lime-600 transition-all duration-100`}
-                  >
-                    Upcoming
-                  </Link>
-                  <span className="px-3 py-1.5 rounded-sm bg-white self-end">
-                    {pendingTaskCount}
-                  </span>
-                </div>
-                <div className="flex items-center justify-center px-2 py-1 rounded-md hover:bg-white gap-3">
-                  <MdOutlineTaskAlt />
-                  <Link
-                    href={`/home/completed`}
-                    className={`${
-                      pathname === "/home/completed" ? "text-lime-600" : ""
-                    } text-lg font-medium hover:text-lime-600 transition-all duration-100`}
-                  >
-                    Completed
-                  </Link>
-                  <span className="px-3 py-1.5 rounded-sm bg-white self-end">
-                    {completedTaskCount}
-                  </span>
-                </div>
-              </span>
-            </li>
-          </ul>
+      <section className="mt-2 w-full flex flex-col gap-[20rem]">
+        <div className="flex flex-col  items-center gap-2 ">
+          <div className="flex gap-2 items-center hover:bg-white hover:rounded-md hover:text-lime-600 cursor-pointer text-lg  px-4 py-2">
+            <FaTasks />
+            <Link
+              href={`/home`}
+              className={`${
+                pathname === "/home" ? "text-lime-600" : ""
+              } px-2 py-1 `}
+            >
+              All Tasks
+            </Link>
+            <span className="bg-white px-2 py-1 text-sm rounded-md">
+              {allTaskCount}
+            </span>
+          </div>
+          <div className="flex gap-2 items-center hover:bg-white hover:rounded-md hover:text-lime-600 cursor-pointer text-lg px-4 py-2">
+            {" "}
+            <TbPlayerTrackNext />
+            <Link
+              href={`/home/upcoming`}
+              className={`${
+                pathname === "/home/upcoming" ? "text-lime-600" : ""
+              } px-2 py-1 `}
+            >
+              Pending
+            </Link>{" "}
+            <span className="bg-white px-2 py-1 text-sm rounded-md">
+              {pendingTaskCount}
+            </span>
+          </div>
+          <div className="flex gap-2 items-center hover:bg-white hover:rounded-md hover:text-lime-600 cursor-pointer text-lg px-4 py-2">
+            {" "}
+            <MdOutlineTaskAlt />
+            <Link
+              href={`/home/completed`}
+              className={`${
+                pathname === "/home/completed" ? "text-lime-600" : ""
+              } px-2 py-1 `}
+            >
+              Completed
+            </Link>
+            <span className="bg-white px-2 py-1 text-sm rounded-md">
+              {completedTaskCount}
+            </span>
+          </div>
         </div>
         <div className="flex flex-col mx-2 justify-center gap-2">
           <Link
             href={`/home/settings`}
             className="flex gap-3 px-2 py-1 text-lg items-center"
           >
-            <IoIosSettings /> Settings
+            <FaRegUserCircle /> Settings
           </Link>
           {/*  */}
-          <button  onClick={onLogout}
-            className="flex gap-3 px-2 py-1 text-lg items-center">
+          <button
+            onClick={onLogout}
+            className="flex gap-3 px-2 py-1 text-lg items-center"
+          >
             <FaSignOutAlt />
             Signout
           </button>

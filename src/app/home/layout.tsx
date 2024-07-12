@@ -2,10 +2,9 @@
 import Navbar from "@/components/Navbar";
 import { Roboto } from "next/font/google";
 import ContextProvider from "../theme-provider";
-import HomePage from "./page";
-import { Suspense } from "react";
-import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
-import Loading from "./loading";
+import { Toaster } from "react-hot-toast";
+import MobileNavbar from "@/components/MobileNavbar";
+
 
 const roboto = Roboto({ weight: "500", subsets: ["latin"] });
 
@@ -15,22 +14,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+   
         <ContextProvider>
-          <div className="flex gap-5 w-full">
+          <main className="flex gap-5 w-full">
             <div
-              className={`${roboto.className} md:w-[14%] w-[97%] max-sm:hidden `}
+              className={`${roboto.className} md:w-[14%] md:block hidden `}
             >
               {" "}
               <Navbar />
             </div>
-            <div className="md:w-[84%] max-h-full ">
-              <Suspense fallback={<Loading />}> {children}</Suspense>
+            <div className="md:hidden block  relative">
+              <MobileNavbar/>
             </div>
-          </div>
+            <div className="md:w-[84%] max-h-full ">
+              <Toaster position="top-center"/>
+              {children}
+            </div>
+          </main>
         </ContextProvider>
-      </body>
-    </html>
+      
   );
 }

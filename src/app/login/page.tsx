@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const router = useRouter();
@@ -11,7 +12,7 @@ export default function Login() {
   const [error, setError] = useState({ emailError: "", passwordError: "" });
   const [userData, setuserData] = useState({ email: "", password: "" });
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setuserData({ ...userData, [e.target.name]: e.target.value });
   };
 
@@ -51,18 +52,24 @@ export default function Login() {
     setLoading(!loading);
 
     // send data to server
-    try {
-      const res = await axios.post("/api/login", userData);
-      console.log(res);
-      setuserData({
-        email: "",
-        password: "",
+    toast
+      .promise(
+        axios.post("/api/login", userData),
+
+        {
+          loading: "Processing....",
+          success: "Login successful",
+          error: "Failed to signup, please try again",
+        }
+      )
+      .then(() => {
+        setuserData({
+          email: "",
+          password: "",
+        });
+        router.push("/login");
+        setLoading(!loading);
       });
-      router.push("/home");
-      setLoading(!loading);
-    } catch (error) {
-      console.log(error);
-    }
   };
   return (
     <>

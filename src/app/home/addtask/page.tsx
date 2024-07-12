@@ -6,19 +6,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextRequest } from "next/server";
 import React, { useContext, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 export interface taskType {
+  _id?: string;
   title: string;
   description: string;
-  dueDate: string;
-  user: string | undefined;
+  user?: string | undefined;
 }
 export default function page() {
   const router = useRouter();
-  const {data,fetchData} = useAppContext();
+  const { data, fetchData, fetchTaskData } = useAppContext();
   const [taskData, setTaskData] = useState<taskType>({
     title: "",
     description: "",
-    dueDate: "",
     user: "",
   });
   const handleChange = (e: any) => {
@@ -31,15 +31,18 @@ export default function page() {
   };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // add to database
-    try {
-      const res = await axios.post("/api/addtask", taskData);
-      console.log(res.data.data);
-      fetchData();
-    } catch (error: any) {
-      console.log(error.message);
-    }
-    router.push('/home')
+
+    toast
+      .promise(axios.post("/api/addtask", taskData), {
+        loading: "Saving Task...",
+        success: "Task updated successfully!",
+        error: "Error updating task!",
+      })
+      .then(() => {
+        fetchData();
+        fetchTaskData();
+        router.push("/home");
+      }); // refresh tasks list after adding new one
   };
 
   return (
@@ -57,6 +60,7 @@ export default function page() {
               <input
                 type="text"
                 name="title"
+                required
                 value={taskData.title}
                 onChange={handleChange}
                 placeholder="Type here..."
@@ -66,6 +70,7 @@ export default function page() {
             <div className="">
               <textarea
                 name="description"
+                required
                 value={taskData.description}
                 onChange={handleChange}
                 placeholder="Description"
@@ -73,16 +78,7 @@ export default function page() {
                 className="outline-lime-400 focus:ring-lime-400 text-lg tracking-tight overflow-y-auto scroll-smooth rounded-xl resize-none w-1/2 p-3"
               />
             </div>
-            <div className="flex  items-center gap-2">
-              <h1 className="font-bold">Due Date:</h1>
-              <input
-                type="date"
-                value={taskData.dueDate}
-                onChange={handleChange}
-                name="dueDate"
-                className="bg-transparent border p-1"
-              />
-            </div>
+
             <div className="self-end p-4 mr-4">
               <button
                 className="px-4 py-2 bg-lime-500 text-white font-semibold rounded-md hover:bg-lime-600 transition-all duration-100 active:bg-lime-300"

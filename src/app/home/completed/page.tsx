@@ -7,52 +7,14 @@ import { FaPlus } from "react-icons/fa";
 import axios from "axios";
 import Card from "@/components/Card";
 import { bgColor } from "@/helpers/constants";
-import { useAppContext } from "@/app/theme-provider";
+import { TaskTypes, useAppContext } from "@/app/theme-provider";
 
-export interface TaskTypes {
-  slice: any;
-  reverse: any;
-  length: number;
-  map(
-    arg0: (data: TaskTypes, index: number) => React.JSX.Element
-  ): React.ReactNode;
-  _id: string;
-  title: string;
-  description: string;
-  completed: Boolean;
-  createdAt: Date;
-  dueDate: Date;
-  user: string;
-}
+
 
 export default function HomePage() {
-  const { data } = useAppContext();
-  const [tasksData, setTasksData] = useState<TaskTypes[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const res = await axios.get("/api/tasks", {
-          params: { user: data?._id },
-        });
-        setTasksData(res.data.data);
-      } catch (error) {
-        console.error(
-          "Failed to fetch data from server. Please try again later.",
-          error
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (data?._id) {
-      fetchTasks();
-    }
-  }, [data?._id]);
-
-  const completedTasks = tasksData.filter((task) => task.completed);
+const {taskData} = useAppContext();
+ 
+  const completedTasks = taskData.filter((task) => task.completed);
 
   return (
     <>

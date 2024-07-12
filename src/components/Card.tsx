@@ -1,4 +1,4 @@
-import { TaskTypes } from "@/app/home/page";
+"use client";
 import React, { useState } from "react";
 import {
   AlertDialog,
@@ -25,45 +25,88 @@ import {
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useRouter } from "next/navigation";
-import { UserData } from "@/app/theme-provider";
+import {
+  AppContext,
+  TaskTypes,
+  useAppContext,
+  UserData,
+} from "@/app/theme-provider";
 import { taskType } from "@/app/home/addtask/page";
 import axios from "axios";
 import { Button } from "./ui/button";
+import { tree } from "next/dist/build/templates/app-page";
+import toast from "react-hot-toast";
 
 interface props {
   bgColor: string[];
   index: number;
   data: TaskTypes;
 }
+interface TaskData {
+  _id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+}
 export default function Card({ bgColor, index, data }: props) {
   const router = useRouter();
-
-  const [taskData, setTaskData] = useState<taskType>({
+  const { fetchData, fetchTaskData } = useAppContext();
+  const [open, setOpen] = useState(false);
+  const [taskData, setTaskData] = useState<TaskData>({
+    _id: data._id,
     title: data.title,
     description: data.description,
-    dueDate: "",
-    user: "",
+    completed: data.completed,
   });
-  console.log(taskData);
+
   const handleChange = (e: any) => {
-    e.preventDefault();
-    setTaskData({
-      ...taskData,
-      [e.target.name]: e.target.value,
-      user: data.user,
-    });
+    const { name, value, type, checked } = e.target;
+    setTaskData((prevTaskData) => ({
+      ...prevTaskData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
   const handleSubmit = async (e: any) => {
+    setOpen(false);
     e.preventDefault();
     // add to database
+    toast
+      .promise(axios.post("/api/editTask", taskData), {
+        loading: "Saving changes...",
+        success: "Changes saved successfully!",
+        error: "Failed to save changes. Please try again later.",
+      })
+      .then(() => {
+        fetchData();
+        fetchTaskData();
+      });
+  };
+  const handleDelete = async () => {
+    toast
+      .promise(
+        axios.delete(`/api/deleteTask`, {
+          params: { id: taskData._id },
+        }),
+        {
+          loading: "Deleting task...",
+          success: "Task deleted successfully!",
+          error: "Failed to delete task. Please try again later.",
+        }
+      )
+      .then(() => {
+        fetchData();
+        fetchTaskData();
+      });
+  };
+  const handleComplete = async () => {
     try {
-      const res = await axios.post("/api/addtask", taskData);
+      await axios.post("/api/editTask", taskData.completed);
     } catch (error: any) {
       console.log(error.message);
     }
-    router.push("/home");
+    fetchData();
+    fetchTaskData();
   };
-
   return (
     <>
       <div
@@ -76,7 +119,7 @@ export default function Card({ bgColor, index, data }: props) {
           {" "}
           <h1 className="font-semibold text-2xl">{data.title}</h1>
           <div className="flex items-center gap-2">
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger className="text-xl bg-transparent p-2 hover:bg-white/25 hover:rounded-full">
                 <FaRegEdit />
               </DialogTrigger>
@@ -104,9 +147,22 @@ export default function Card({ bgColor, index, data }: props) {
                     value={taskData.description}
                     onChange={handleChange}
                     placeholder="Description"
-                    rows={5}
-                    className="outline-lime-400 focus:ring-lime-400 text-lg tracking-tight overflow-y-auto scroll-smooth rounded-xl resize-none w-1/2 p-3"
+                    rows={3}
+                    className="outline-lime-400 border focus:ring-lime-400 text-lg tracking-tight overflow-y-auto scroll-smooth rounded-xl resize-none w-1/2 p-3"
                   ></textarea>
+                  <div className="flex items-center gap-2">
+                    <label htmlFor="completed">
+                      {data.completed
+                        ? "Mark as not completed"
+                        : "Mark as completed"}
+                    </label>
+                    <input
+                      type="checkbox"
+                      name="completed"
+                      checked={taskData.completed}
+                      onChange={handleChange}
+                    />
+                  </div>
                 </div>
 
                 <DialogFooter>
@@ -134,7 +190,10 @@ export default function Card({ bgColor, index, data }: props) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="bg-red-500 hover:bg-red-700">
+                  <AlertDialogAction
+                    className="bg-red-500 hover:bg-red-700"
+                    onClick={handleDelete}
+                  >
                     Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -143,11 +202,6 @@ export default function Card({ bgColor, index, data }: props) {
           </div>
         </div>
         <p className="font-light">{data.description}</p>
-        <div className="absolute bottom-0 right-0 self-end">
-          <Button className="bg-lime-500 hover:bg-lime-600 active:bg-lime-300">
-            Mark as completed
-          </Button>
-        </div>
       </div>
     </>
   );
