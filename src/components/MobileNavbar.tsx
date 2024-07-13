@@ -79,7 +79,7 @@ export default function MobileNavbar() {
             }  flex flex-col relative text-sm items-center px-3 py-2 justify-center gap-2 border-l"`}
           >
             <FaTasks className="relative text-2xl" />{" "}
-            <span className=" bg-white absolute top-0 right-0 rounded-md">
+            <span className="bg-lime-400 text-white px-1 py-1 absolute top-0 right-2 rounded-full text-xs  font-semibold">
               {allTaskCount}
             </span>{" "}
             All Tasks
@@ -93,7 +93,7 @@ export default function MobileNavbar() {
             {" "}
             <TbPlayerTrackNext className=" text-2xl" />
             Pending
-            <span className="bg-white absolute top-0 right-0 rounded-md">
+            <span className="bg-lime-400 text-white px-1 py-1 absolute top-0 right-2 rounded-full text-xs  font-semibold">
               {pendingTaskCount}
             </span>
           </Link>
@@ -106,9 +106,9 @@ export default function MobileNavbar() {
             }  flex flex-col relative text-sm items-center px-2 py-2 justify-center gap-2 border-l"`}
           >
             {" "}
-            <MdOutlineTaskAlt className="relative text-2xl" />
+            <MdOutlineTaskAlt className=" text-2xl" />
             Completed
-            <span className="bg-white absolute top-0 right-0 rounded-md">
+            <span className="bg-lime-400 text-white px-2 py-1 absolute top-0 right-2 rounded-full text-xs  font-semibold">
               {completedTaskCount}
             </span>
           </Link>

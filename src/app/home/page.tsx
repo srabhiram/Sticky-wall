@@ -21,7 +21,7 @@ export default function HomePage() {
         <div className="flex justify-end mr-10 mb-3 font-playwrite md:text-lg font-bold">
           <Link
             href={"/home/addtask"}
-            className="flex gap-3 items-center px-4 py-3 bg-lime-400 rounded-xl hover:scale-110 active:scale-95 active:bg-white transition-all duration-150"
+            className="md:flex hidden gap-3 items-center px-4 py-3 bg-lime-400 rounded-xl hover:scale-110 active:scale-95 active:bg-white transition-all duration-150"
           >
             {" "}
             <FaPlus />
@@ -35,6 +35,7 @@ export default function HomePage() {
               .reverse()
               .map((data: TaskTypes, index: number) => (
                 <Card
+                
                   bgColor={bgColor}
                   data={data}
                   index={taskData.length - 1 - index}

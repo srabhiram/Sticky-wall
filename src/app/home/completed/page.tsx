@@ -19,13 +19,13 @@ const {taskData} = useAppContext();
   return (
     <>
       <main className="w-full mx-2 my-3 p-3 rounded-lg">
-        <header className="font-playwrite md:text-[2.5rem] font-bold">
+        <header className="font-playwrite md:text-[2.5rem] text-2xl font-bold">
           Completed Tasks
         </header>
         <div className="flex justify-end mr-10 mb-3 font-playwrite text-lg font-bold">
           <Link
             href={"/home/addtask"}
-            className="flex gap-3 items-center px-4 py-3 bg-lime-400 rounded-xl hover:scale-110 active:scale-95 active:bg-white transition-all duration-150"
+            className="md:flex gap-3 hidden  items-center px-4 py-3 bg-lime-400 rounded-xl hover:scale-110 active:scale-95 active:bg-white transition-all duration-150"
           >
             <FaPlus />
             <span>Add task</span>

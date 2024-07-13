@@ -49,12 +49,12 @@ export default function page() {
     <>
       <main className="w-full  mx-2 my-3 p-3 rounded-lg">
         <header>
-          <h1 className="font-playwrite font-bold text-[2.8rem]">New Task</h1>
+          <h1 className="font-playwrite font-bold text-2xl md:text-[2.8rem]">New Task</h1>
         </header>
         <section className="mt-4 w-full h-1/2  flex flex-col items-center  justify-center ">
-          <div className="bg-zinc-50 w-3/5 rounded-md shadow-md h-1/2 flex flex-col justify-center px-4 py-3 gap-6">
+          <div className="bg-zinc-50 md:w-3/5 rounded-md shadow-md h-1/2 flex flex-col justify-center px-4 py-3 gap-6">
             <div className="">
-              <label htmlFor="text" className="text-2xl  font-bold block p-2">
+              <label htmlFor="text" className="text-xl md:text-2xl  font-bold block p-2">
                 Title
               </label>
               <input
@@ -64,7 +64,7 @@ export default function page() {
                 value={taskData.title}
                 onChange={handleChange}
                 placeholder="Type here..."
-                className="px-4 py-5 w-1/2 rounded-xl shadow-sm outline-lime-400 focus:ring-lime-400 placeholder-slate-400 "
+                className="px-4 py-5 md:w-1/2 rounded-xl shadow-sm outline-lime-400 focus:ring-lime-400 placeholder-slate-400 "
               />
             </div>
             <div className="">
@@ -75,7 +75,7 @@ export default function page() {
                 onChange={handleChange}
                 placeholder="Description"
                 rows={5}
-                className="outline-lime-400 focus:ring-lime-400 text-lg tracking-tight overflow-y-auto scroll-smooth rounded-xl resize-none w-1/2 p-3"
+                className="outline-lime-400 focus:ring-lime-400 text-lg tracking-tight overflow-y-auto scroll-smooth rounded-xl resize-none md:w-1/2 p-3"
               />
             </div>
 
@@ -88,7 +88,7 @@ export default function page() {
               </button>
               <Link
                 href={`/home`}
-                className="px-4 py-2 text-gray-600 font-semibold rounded-md hover:text-gray-800 transition-all duration-100"
+                className="px-4 py-2 text-gray-600 font-semibold rounded-md hover:text-gray-800 transition-all duration-100 "
               >
                 Cancel
               </Link>
