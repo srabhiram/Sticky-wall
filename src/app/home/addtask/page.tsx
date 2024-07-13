@@ -1,18 +1,17 @@
 "use client";
-import { useAppContext, UserData } from "@/app/theme-provider";
+import { useAppContext } from "@/app/theme-provider";
 import axios from "axios";
-import { AppContextType } from "next/dist/shared/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { NextRequest } from "next/server";
-import React, { useContext, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import React, {  useState } from "react";
+import toast from "react-hot-toast";
 export interface taskType {
   _id?: string;
   title: string;
   description: string;
   user?: string | undefined;
 }
+
 export default function page() {
   const router = useRouter();
   const { data, fetchData, fetchTaskData } = useAppContext();

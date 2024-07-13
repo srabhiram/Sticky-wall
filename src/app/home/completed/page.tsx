@@ -1,15 +1,15 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Navbar from "@/components/Navbar";
+import React from "react";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
-import axios from "axios";
-import Card from "@/components/Card";
 import { bgColor } from "@/helpers/constants";
 import { TaskTypes, useAppContext } from "@/app/theme-provider";
+import dynamic from "next/dynamic";
 
-
+const Card = dynamic(() => import('@/components/Card'), {
+  loading: () => <HomeSkeleton/>
+});
 
 export default function HomePage() {
 const {taskData} = useAppContext();

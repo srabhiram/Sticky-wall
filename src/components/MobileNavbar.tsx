@@ -39,8 +39,9 @@ export default function MobileNavbar() {
       })
       .then(() => {
         setPopupMenu(!popupMenu);
-        router.push("/");
+        router.push("/login");
       });
+      
   };
   const handlePopup = () => {
     setPopupMenu(!popupMenu);
