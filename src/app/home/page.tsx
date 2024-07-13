@@ -5,7 +5,6 @@ import { FaPlus } from "react-icons/fa";
 import dynamic from 'next/dynamic';
 import { TaskTypes, useAppContext } from "../theme-provider";
 import { bgColor } from "@/helpers/constants";
-import { Toaster } from "react-hot-toast";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Spinner from "@/components/skeletons/Spinner";
 

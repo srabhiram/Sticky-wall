@@ -36,6 +36,8 @@ import axios from "axios";
 import { Button } from "./ui/button";
 import { tree } from "next/dist/build/templates/app-page";
 import toast from "react-hot-toast";
+import { timeAgo } from "@/helpers/getTimeagoFunction";
+import Details from "./Details";
 
 interface props {
   bgColor: string[];
@@ -112,7 +114,7 @@ export default function Card({ bgColor, index, data }: props) {
       <div
         className={`relative ${
           bgColor[index % bgColor.length]
-        } h-72 w-72 p-4 rounded-2xl hover:scale-105 transition-all duration-150`}
+        } relative h-72 w-72 p-4 rounded-2xl hover:scale-105 transition-all duration-150`}
         key={index}
       >
         <div className="flex justify-between items-center">
@@ -199,9 +201,14 @@ export default function Card({ bgColor, index, data }: props) {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+
+            <Details data={data}/>
           </div>
         </div>
         <p className="font-light">{data.description}</p>
+        <div className="flex absolute bottom-2 right-4 justify-end gap-2">
+         {timeAgo(data.createdAt)}
+        </div>
       </div>
     </>
   );

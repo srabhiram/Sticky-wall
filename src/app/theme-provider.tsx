@@ -25,7 +25,7 @@ export interface TaskTypes {
   description: string;
   completed: boolean;
   createdAt: string;
-  dueDate: string;
+  updatedAt: string;
   user: string;
 }
 

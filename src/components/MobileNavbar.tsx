@@ -31,17 +31,17 @@ export default function MobileNavbar() {
   }, [taskData]);
 
   const onLogout = async () => {
-    toast
-      .promise(axios.get("/api/logout"), {
+    try {
+      await toast.promise(axios.get("/api/logout"), {
         loading: "Signing out...",
         success: "Successfully logged out",
         error: "Something went wrong",
-      })
-      .then(() => {
-        setPopupMenu(!popupMenu);
-        router.push("/login");
       });
-      
+      router.push("/login");
+      setPopupMenu(!popupMenu);
+    } catch (error: any) {
+      await toast.error(error.message);
+    }
   };
   const handlePopup = () => {
     setPopupMenu(!popupMenu);
@@ -98,8 +98,12 @@ export default function MobileNavbar() {
               {pendingTaskCount}
             </span>
           </Link>
-          <Link href={`/home/addtask`} className="px-3 py-2 bg-lime-400 rounded-full flex justify-center items-center h-12 w-12">
-          <FaPlus/></Link>
+          <Link
+            href={`/home/addtask`}
+            className="px-3 py-2 bg-lime-400 rounded-full flex justify-center items-center h-12 w-12"
+          >
+            <FaPlus />
+          </Link>
           <Link
             href={`/home/completed`}
             className={`${

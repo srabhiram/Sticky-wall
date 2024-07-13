@@ -1,7 +1,13 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaAlignJustify, FaPlus, FaRegUserCircle, FaSignOutAlt, FaTasks } from "react-icons/fa";
+import {
+  FaAlignJustify,
+  FaPlus,
+  FaRegUserCircle,
+  FaSignOutAlt,
+  FaTasks,
+} from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import { TbPlayerTrackNext } from "react-icons/tb";
@@ -31,13 +37,16 @@ export default function Navbar() {
   }, [taskData]);
 
   const onLogout = async () => {
-    toast
-      .promise(axios.get("/api/logout"), {
+    try {
+      await toast.promise(axios.get("/api/logout"), {
         loading: "Signing out...",
         success: "Successfully logged out",
         error: "Something went wrong",
-      })
-      .then(() => router.push("/"));
+      });
+      router.push("/login");
+    } catch (error: any) {
+      await toast.error(error.message);
+    }
   };
 
   return (
