@@ -3,7 +3,7 @@ import React from "react";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
-import { bgColor } from "@/helpers/constants";
+import { bgColorForCard } from "@/helpers/constants";
 import { TaskTypes, useAppContext } from "@/app/theme-provider";
 import dynamic from "next/dynamic";
 
@@ -36,7 +36,7 @@ const {taskData} = useAppContext();
             completedTasks.slice()
             .reverse()
             .map((data: TaskTypes, index: number) => (
-              <Card key={index} data={data} index={index} bgColor={bgColor} />
+              <Card key={index} data={data} index={index} bgColorCard={bgColorForCard} />
             )): "No tasks completed"}
         </section>
       </main>

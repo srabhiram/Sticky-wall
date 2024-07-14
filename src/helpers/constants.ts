@@ -1,4 +1,4 @@
-export const bgColor = [
+export const bgColorForCard = [
     "bg-green-400",
     "bg-pink-400",
     "bg-cyan-400",
@@ -7,3 +7,5 @@ export const bgColor = [
     "bg-yellow-400",
     "bg-teal-400",
   ];
+
+  

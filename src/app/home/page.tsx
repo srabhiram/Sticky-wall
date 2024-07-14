@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import dynamic from 'next/dynamic';
 import { TaskTypes, useAppContext } from "../theme-provider";
-import { bgColor } from "@/helpers/constants";
+import { bgColorForCard } from "@/helpers/constants";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Spinner from "@/components/skeletons/Spinner";
 
@@ -43,15 +43,15 @@ export default function HomePage() {
             <span>Add task</span>
           </Link>
         </div>
-        <section className="p-4 flex gap-5 flex-wrap">
+        <section className="p-4  flex gap-5 flex-wrap">
           {taskData &&
             taskData
               .slice()
               .reverse()
               .map((data: TaskTypes, index: number) => (
                 <Card
-                  
-                  bgColor={bgColor}
+              
+                  bgColorCard={bgColorForCard}
                   data={data}
                   index={taskData.length - 1 - index}
                 />

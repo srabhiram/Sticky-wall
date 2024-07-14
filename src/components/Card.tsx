@@ -21,6 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
 
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
@@ -40,7 +41,7 @@ import { timeAgo } from "@/helpers/getTimeagoFunction";
 import Details from "./Details";
 
 interface props {
-  bgColor: string[];
+   bgColorCard: string[];
   index: number;
   data: TaskTypes;
 }
@@ -50,7 +51,11 @@ interface TaskData {
   description: string;
   completed: boolean;
 }
-export default function Card({ bgColor, index, data }: props) {
+export default function Card({
+  bgColorCard,
+  index,
+  data,
+}: props) {
   const router = useRouter();
   const { fetchData, fetchTaskData } = useAppContext();
   const [open, setOpen] = useState(false);
@@ -100,20 +105,20 @@ export default function Card({ bgColor, index, data }: props) {
         fetchTaskData();
       });
   };
-  const handleComplete = async () => {
-    try {
-      await axios.post("/api/editTask", taskData.completed);
-    } catch (error: any) {
-      console.log(error.message);
-    }
-    fetchData();
-    fetchTaskData();
+  const handleComplete = async (e:any) => {
+    const { name, value, type, checked } = e.target;
+    setTaskData((prevTaskData) => ({
+      ...prevTaskData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+
+    
   };
   return (
     <>
       <div
         className={`relative ${
-          bgColor[index % bgColor.length]
+          bgColorCard[index % bgColorCard.length]
         } relative h-72 w-72 p-4 rounded-2xl hover:scale-105 transition-all duration-150`}
         key={index}
       >
@@ -165,6 +170,7 @@ export default function Card({ bgColor, index, data }: props) {
                       onChange={handleChange}
                     />
                   </div>
+                  <Switch className="data-[state=checked]:bg-lime-500" />
                 </div>
 
                 <DialogFooter>
@@ -202,12 +208,16 @@ export default function Card({ bgColor, index, data }: props) {
               </AlertDialogContent>
             </AlertDialog>
 
-            <Details data={data}/>
+            <Details data={data} />
+            <Switch 
+            checked={data.completed}
+              className={` data-[state=checked]:bg-transparent/45 data-[state=unchecked]:bg-transparent/25`}
+            />
           </div>
         </div>
         <p className="font-light">{data.description}</p>
         <div className="flex absolute bottom-2 right-4 justify-end gap-2">
-         {timeAgo(data.createdAt)}
+          {timeAgo(data.createdAt)}
         </div>
       </div>
     </>

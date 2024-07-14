@@ -84,7 +84,7 @@ export default function Signup() {
         {
           loading: "Processing....",
           success: "Successfully signed up, Login now",
-          error: "Failed to signup, please try again",
+          error: "",
         }
       );
 
@@ -95,8 +95,12 @@ export default function Signup() {
       });
 
       router.push("/login");
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error.response.status ===400) {
+        toast.error("User Already Registered");
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

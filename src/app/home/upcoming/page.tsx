@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
-import { bgColor } from "@/helpers/constants";
+import { bgColorForCard } from "@/helpers/constants";
 import { TaskTypes, useAppContext } from "@/app/theme-provider";
 import dynamic from "next/dynamic";
 
@@ -38,7 +38,7 @@ export default function HomePage() {
               .map((data: TaskTypes, index: number) => (
                 <Card
                   key={data._id}
-                  bgColor={bgColor}
+                  bgColorCard={bgColorForCard}
                   data={data}
                   index={upcomingTasks.length - 1 - index}
                 />
