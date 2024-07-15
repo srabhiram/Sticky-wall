@@ -11,6 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { CiMenuKebab } from "react-icons/ci";
 import {
   Dialog,
   DialogClose,
@@ -32,6 +33,15 @@ import {
   useAppContext,
   UserData,
 } from "@/app/theme-provider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 import { taskType } from "@/app/home/addtask/page";
 import axios from "axios";
 import { Button } from "./ui/button";
@@ -41,7 +51,7 @@ import { timeAgo } from "@/helpers/getTimeagoFunction";
 import Details from "./Details";
 
 interface props {
-   bgColorCard: string[];
+  bgColorCard: string[];
   index: number;
   data: TaskTypes;
 }
@@ -51,11 +61,7 @@ interface TaskData {
   description: string;
   completed: boolean;
 }
-export default function Card({
-  bgColorCard,
-  index,
-  data,
-}: props) {
+export default function Card({ bgColorCard, index, data }: props) {
   const router = useRouter();
   const { fetchData, fetchTaskData } = useAppContext();
   const [open, setOpen] = useState(false);
@@ -105,14 +111,22 @@ export default function Card({
         fetchTaskData();
       });
   };
-  const handleComplete = async (e:any) => {
-    const { name, value, type, checked } = e.target;
-    setTaskData((prevTaskData) => ({
-      ...prevTaskData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  
+  const handleComplete = async (checked:boolean) => {
+    const updatedTaskData = { ...taskData, completed: checked };
+    setTaskData(updatedTaskData);
 
-    
+    try {
+      await toast.promise(axios.post("/api/editTask", updatedTaskData), {
+        loading: "Saving changes...",
+        success: "Changes saved successfully!",
+        error: "Failed to save changes. Please try again later.",
+      });
+      fetchData();
+      fetchTaskData();
+    } catch (error: any) {
+      toast.error(error);
+    }
   };
   return (
     <>
@@ -125,10 +139,15 @@ export default function Card({
         <div className="flex justify-between items-center">
           {" "}
           <h1 className="font-semibold text-2xl">{data.title}</h1>
-          <div className="flex items-center gap-2">
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger className="text-xl bg-transparent p-2 hover:bg-white/25 hover:rounded-full">
-                <FaRegEdit />
+          <div className="flex items-center">
+          <DropdownMenu>
+  <DropdownMenuTrigger><CiMenuKebab /></DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Options</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem><Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger className="text-sm flex items-center gap-4 bg-transparent p-2 hover:bg-white/25 hover:rounded-full">
+                <FaRegEdit /> {` `} Edit
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
@@ -158,21 +177,14 @@ export default function Card({
                     className="outline-lime-400 border focus:ring-lime-400 text-lg tracking-tight overflow-y-auto scroll-smooth rounded-xl resize-none w-1/2 p-3"
                   ></textarea>
                   <div className="flex items-center gap-2">
-                    <label htmlFor="completed">
-                      {data.completed
-                        ? "Mark as not completed"
-                        : "Mark as completed"}
-                    </label>
-                    <input
-                      type="checkbox"
-                      name="completed"
-                      checked={taskData.completed}
-                      onChange={handleChange}
-                    />
+                    <label htmlFor="completed">Completed</label>
+                    <Switch
+            name="completed"
+            onCheckedChange={(checked)=>setTaskData({...taskData, completed:checked})}
+              checked={taskData.completed}
+              className="data-[state=checked]:bg-lime-400"            />
                   </div>
-                  <Switch className="data-[state=checked]:bg-lime-500" />
                 </div>
-
                 <DialogFooter>
                   <Button
                     className="bg-lime-500 hover:bg-lime-600 active:bg-lime-300"
@@ -182,9 +194,8 @@ export default function Card({
                   </Button>
                 </DialogFooter>
               </DialogContent>
-            </Dialog>
-
-            <AlertDialog>
+            </Dialog></DropdownMenuItem>
+    <DropdownMenuItem>   <AlertDialog>
               <AlertDialogTrigger className="text-xl bg-transparent p-2 hover:bg-white/25 hover:rounded-full">
                 <MdDeleteOutline />
               </AlertDialogTrigger>
@@ -206,12 +217,23 @@ export default function Card({
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
-            </AlertDialog>
+            </AlertDialog></DropdownMenuItem>
+    <DropdownMenuItem>Team</DropdownMenuItem>
+    <DropdownMenuItem>Subscription</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+
+            
+
+         
 
             <Details data={data} />
-            <Switch 
-            checked={data.completed}
-              className={` data-[state=checked]:bg-transparent/45 data-[state=unchecked]:bg-transparent/25`}
+            <Switch
+            name="completed"
+            
+              checked={taskData.completed}
+              onCheckedChange={handleComplete}
+              className={` data-[state=checked]:bg-transparent/50 data-[state=unchecked]:bg-transparent/30`}
             />
           </div>
         </div>
