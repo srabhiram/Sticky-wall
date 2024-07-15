@@ -14,7 +14,7 @@ export default function MobileNavbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { taskData, loading } = useAppContext();
+  const { taskData } = useAppContext();
   const [popupMenu, setPopupMenu] = useState(false);
   const [allTaskCount, setAllTaskCount] = useState(0);
   const [completedTaskCount, setCompletedTaskCount] = useState(0);

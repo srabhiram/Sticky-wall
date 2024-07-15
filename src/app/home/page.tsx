@@ -8,7 +8,6 @@ import { bgColorForCard } from "@/helpers/constants";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Spinner from "@/components/skeletons/Spinner";
 
-// Dynamically import the Card component
 const Card = dynamic(() => import('@/components/Card'), {
   loading: () => <HomeSkeleton/>
 });
@@ -18,14 +17,14 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate data fetching or heavy computation
+    
     setTimeout(() => {
       setLoading(false);
-    }, 1000); // Adjust time as needed
+    }, 1000); 
   }, []);
 
   if (loading) {
-    return <Spinner/> // Loading state
+    return <Spinner/> 
   }
 
   return (

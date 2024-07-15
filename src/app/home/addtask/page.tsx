@@ -91,10 +91,6 @@ export default function page() {
               >
                 Cancel
               </Link>
-
-              {/* <button className="px-4 py-2 text-red-600 font-semibold rounded-md hover:text-red-800 transition-all duration-100">
-              Delete Task
-            </button> */}
             </div>
           </div>
         </section>

@@ -2,26 +2,22 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
-  FaAlignJustify,
-  FaPlus,
   FaRegUserCircle,
   FaSignOutAlt,
   FaTasks,
 } from "react-icons/fa";
-import { IoIosSettings } from "react-icons/io";
 import { MdOutlineTaskAlt } from "react-icons/md";
 import { TbPlayerTrackNext } from "react-icons/tb";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useAppContext } from "@/app/theme-provider";
-import path from "path";
 import toast from "react-hot-toast";
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { taskData, loading } = useAppContext();
+  const { taskData } = useAppContext();
 
   const [allTaskCount, setAllTaskCount] = useState(0);
   const [completedTaskCount, setCompletedTaskCount] = useState(0);

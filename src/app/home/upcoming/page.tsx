@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";

@@ -18,6 +18,5 @@ const taskSchema = new mongoose.Schema({
   },
   
 },{timestamps: true});
-// default: () => new Date().toISOString().slice(0, 10),
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
 export default Task;

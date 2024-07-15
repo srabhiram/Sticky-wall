@@ -1,18 +1,12 @@
 "use client";
 
-import { useAppContext, UserData } from "@/app/theme-provider";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useAppContext } from "@/app/theme-provider";
+import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 
-
-
 export default function page() {
-  const [userdData, setData] = useState<UserData | null>(null);
   const {data} = useAppContext();
-  useEffect(()=>{
-      setData(data);
-  }, [data])
+  
   return (
     <>
       <main className="w-full  md:mx-2 my-3 md:p-3 rounded-lg">
@@ -24,7 +18,7 @@ export default function page() {
             <div className="flex flex-col items-center justify-center gap-4">
               <div className="rounded-full w-24 h-24"><FaUserCircle className="w-24 text-8xl" /></div>
               <div className="font-semibold text-xl flex items-center flex-col justify-center">
-                <h1>{userdData?.fullname}</h1>
+                <h1>{data?.fullname}</h1>
                 <h2 className="text-zinc-400">{data?.email}</h2>
               </div>{" "}
             </div>
