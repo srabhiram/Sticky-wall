@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
       message: "Logout Successful",
       success: true,
     });
-    res.cookies.set('token', '', {
+  res.cookies.set('token', '', {
       httpOnly: true,
       expires: new Date(0),
       secure: process.env.NODE_ENV === 'production', // Expire the cookie immediately.
