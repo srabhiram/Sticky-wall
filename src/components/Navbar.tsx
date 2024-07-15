@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useAppContext } from "@/app/theme-provider";
 import toast from "react-hot-toast";
+import { cookies } from "next/headers";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -39,6 +40,7 @@ export default function Navbar() {
         success: "Successfully logged out",
         error: "Something went wrong",
       });
+      cookies().set('token','')
       router.push("/login");
     } catch (error: any) {
       await toast.error(error.message);
