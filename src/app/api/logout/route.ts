@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       secure: process.env.NODE_ENV === 'production', // Expire the cookie immediately.
     });
 
-    return res.redirected;
+    return res;
   } catch (error: any) {
     return NextResponse.json(
       {
