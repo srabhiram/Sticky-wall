@@ -39,7 +39,8 @@ export default function Navbar() {
         success: "Successfully logged out",
         error: "Something went wrong",
       });
-      router.push("/login");
+      console.log(document.cookie)
+      router.push("/");
     } catch (error: any) {
       await toast.error(error.message);
     }

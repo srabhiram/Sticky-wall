@@ -9,7 +9,8 @@ connectDB();
 export async function POST(req: NextRequest) {
   const reqbody = await req.json();
   const { email, password } = reqbody;
-
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 2);
   // Check if email and password are provided
   if (!email || !password) {
     return NextResponse.json(
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
     // create token data
     const tokenData = {id:user._id}
     // generate token
-    const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY!)
+    const token =  jwt.sign(tokenData, process.env.JWT_SECRET_KEY!)
     const res = NextResponse.json(
       {
         message: "Login successfully",
@@ -43,7 +44,9 @@ export async function POST(req: NextRequest) {
       }
     );
     res.cookies.set("token", token,{
-      httpOnly: true
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Set secure flag to true for production environment only.
+      expires :expirationDate
     })
     return res;
   } catch (error: unknown) {
