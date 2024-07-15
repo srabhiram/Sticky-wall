@@ -7,7 +7,6 @@ export async function GET(req: NextRequest) {
     });
     res.cookies.set("token", "", {
       httpOnly: true,
-      expires: new Date(0),
     });
     return res;
   } catch (error: any) {
