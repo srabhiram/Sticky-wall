@@ -6,6 +6,7 @@ import { FaPlus } from "react-icons/fa";
 import { bgColorForCard } from "@/helpers/constants";
 import { TaskTypes, useAppContext } from "@/app/theme-provider";
 import dynamic from "next/dynamic";
+import EmptyUi from "@/components/EmptyUi";
 
 const Card = dynamic(() => import('@/components/Card'), {
   loading: () => <HomeSkeleton/>
@@ -37,7 +38,7 @@ const {taskData} = useAppContext();
             .reverse()
             .map((data: TaskTypes, index: number) => (
               <Card key={index} data={data} index={index} bgColorCard={bgColorForCard} />
-            )): "No tasks completed"}
+            )): <EmptyUi/>}
         </section>
       </main>
     </>

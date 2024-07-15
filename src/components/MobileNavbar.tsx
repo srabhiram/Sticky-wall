@@ -77,12 +77,12 @@ export default function MobileNavbar() {
             href={`/home`}
             className={`${
               pathname === "/home" ? "bg-white text-lime-600" : ""
-            }  flex flex-col relative text-sm items-center px-3 py-2 justify-center gap-2 border-l"`}
+            }  flex flex-col relative text-sm items-center px-3 py-2 justify-center gap-1 border-l"`}
           >
-            <FaTasks className="relative text-2xl" />{" "}
-            <span className="bg-lime-400 text-white px-1 py-1 absolute top-0 right-2 rounded-full text-xs  font-semibold">
+            <FaTasks className="relative text-xl" />{" "}
+            <span className="bg-lime-400 text-white px-2 py-1 absolute top-0 right-2 rounded-full text-[10px]  font-semibold">
               {allTaskCount}
-            </span>{" "}
+            </span>
             All Tasks
           </Link>
           <Link

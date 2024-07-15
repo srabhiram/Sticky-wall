@@ -7,6 +7,7 @@ import { TaskTypes, useAppContext } from "../theme-provider";
 import { bgColorForCard } from "@/helpers/constants";
 import HomeSkeleton from "@/components/skeletons/HomeSkeleton";
 import Spinner from "@/components/skeletons/Spinner";
+import EmptyUi from "@/components/EmptyUi";
 
 const Card = dynamic(() => import('@/components/Card'), {
   loading: () => <HomeSkeleton/>
@@ -27,6 +28,7 @@ export default function HomePage() {
     return <Spinner/> 
   }
 
+
   return (
     <>
       <main className="w-full  my-3 px-1 rounded-lg">
@@ -43,7 +45,7 @@ export default function HomePage() {
           </Link>
         </div>
         <section className="p-4  flex gap-5 flex-wrap">
-          {taskData &&
+          {taskData.length === 0 ? (<EmptyUi/>):(
             taskData
               .slice()
               .reverse()
@@ -53,7 +55,7 @@ export default function HomePage() {
                   bgColorCard={bgColorForCard}
                   data={data}
                   index={taskData.length - 1 - index}
-                />
+                />)
               ))}
         </section>
        
